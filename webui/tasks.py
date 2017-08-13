@@ -27,7 +27,7 @@ class MissionTask(BaseTask):
         self.mission.save()
         super(MissionTask, self).init()
 
-    def run(self, exec_id):
+    def run(self, exec_id,call_id=None):
         self.init(exec_id=exec_id)
         if self.mission.project.type=='php':
             playbook_path='/home/admin/scripts/t.yml'
@@ -40,7 +40,9 @@ class MissionTask(BaseTask):
             extra_vars={
                 "host": [x.name for x in self.mission.project.host_list.all()],
                 "project": self.mission.project.name,
-                "version": self.mission.version
+                "version": self.mission.version,
+                "file_name": self.mission.version,
+                "file_md5": self.mission.version,
             }
         )
         result_data = rbt.get_playbook_result()

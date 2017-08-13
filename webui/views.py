@@ -176,6 +176,10 @@ def reset_job(req,job_id):
 def mission_run_view(req):
     project_name = req.GET.get('project')
     version = req.GET.get('version')
+    try:
+        call_id=int(req.GET.get('call_id'))
+    except:
+        call_id=None
     if Project.objects.filter(name=project_name).__len__() == 0:
         response = HttpResponseBadRequest(json.dumps(get_result(1, 'project not existed {0}'.format(project_name))))
     else:
@@ -210,12 +214,19 @@ def versioin_console_view(req):
     elif req.method=='POST':
         project_name=req.POST.get('project')
         version=req.POST.get('version')
+        file_name=req.POST.get('file_name')
+        file_md5=req.POST.get('version')
         if Project.objects.filter(name=project_name).__len__() == 0:
             response=HttpResponseBadRequest(json.dumps(get_result(1, 'project not existed {0}'.format(project_name))))
         else:
             project=Project.objects.filter(name=project_name)[0]
             if Version_history.objects.filter(project=project,version=version).__len__()==0:
-                Version_history.objects.create(project=project,version=version,status=Status.objects.get(name='standby'))
+                Version_history.objects.create(project=project,
+                                               version=version,
+                                               file_name=file_name,
+                                               file_md5=file_md5,
+                                               status=Status.objects.get(name='standby')
+                                               )
                 response=HttpResponse(json.dumps(get_result(0,'add to  version history')))
             else:
                 response=HttpResponseBadRequest(json.dumps(get_result(2,'already add to version history')))

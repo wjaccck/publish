@@ -61,6 +61,8 @@ class Version_history(CommonModel, PUBLISH_BASE):
     project = models.ForeignKey(Project, related_name='project_version')
     # mission = models.ForeignKey(Mission)
     version = models.CharField(max_length=10,default='default')
+    file_name = models.CharField(max_length=50)
+    file_md5 = models.CharField(max_length=50)
     status = models.ForeignKey(Status)
 
     @staticmethod

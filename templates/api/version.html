@@ -71,6 +71,12 @@
 									 版本
 								</th>
                                 <th>
+									 文件
+								</th>
+                                <th>
+									 校验值
+								</th>
+                                <th>
 									 状态
 								</th>
                                 <th>
@@ -87,6 +93,8 @@
                                         <td>{{ m.id }}</td>
                                         <td>{{ m.project.name }}</td>
                                         <td>{{ m.version }}</td>
+                                        <td>{{ m.file_name }}</td>
+                                        <td>{{ m.file_md5 }}</td>
                                         <td>{{ m.status }}</td>
                                         <td>{{ m.created_date |date:'Y-m-d H:i:s' }}</td>
                                         <td>{{ m.modified_date |date:'Y-m-d H:i:s' }}</td>
