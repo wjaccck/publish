@@ -209,13 +209,14 @@ def versioin_console_view(req):
         else:
             project=Project.objects.filter(name=project_name)[0]
             result = [{'project': project, "version": x.version, "status": x.status.name, } for x in
-                      Version_history.objects.filter(project=Project.objects.get(name=project))]
+                      Version_history.objects.filter(project=project)]
             response = HttpResponse(json.dumps(result))
     elif req.method=='POST':
         project_name=req.POST.get('project')
         version=req.POST.get('version')
         file_name=req.POST.get('file_name')
         file_md5=req.POST.get('version')
+        commit_id=req.POST.get('commit_id')
         if Project.objects.filter(name=project_name).__len__() == 0:
             response=HttpResponseBadRequest(json.dumps(get_result(1, 'project not existed {0}'.format(project_name))))
         else:
@@ -225,6 +226,7 @@ def versioin_console_view(req):
                                                version=version,
                                                file_name=file_name,
                                                file_md5=file_md5,
+                                               commit_id=commit_id,
                                                status=Status.objects.get(name='standby')
                                                )
                 response=HttpResponse(json.dumps(get_result(0,'add to  version history')))
