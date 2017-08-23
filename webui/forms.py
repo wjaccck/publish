@@ -24,6 +24,7 @@ class StatusForm(forms.ModelForm):
 
 class ProjectForm(forms.ModelForm):
     name = forms.CharField(label='name', max_length=50, widget=forms.TextInput({'class': 'form-control'}))
+    build_name = forms.CharField(label='build_name', max_length=50, widget=forms.TextInput({'class': 'form-control'}))
     type = forms.ChoiceField(label='类型',choices=[
         ('node','node'),
         ('php','php'),
@@ -33,6 +34,7 @@ class ProjectForm(forms.ModelForm):
     class Meta:
         fields = (
             'name',
+            'build_name',
             'type',
             'host_list',
         )

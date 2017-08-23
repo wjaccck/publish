@@ -77,6 +77,9 @@
 									 校验值
 								</th>
                                 <th>
+									 COMMIT_ID
+								</th>
+                                <th>
 									 状态
 								</th>
                                 <th>
@@ -95,6 +98,7 @@
                                         <td>{{ m.version }}</td>
                                         <td>{{ m.file_name }}</td>
                                         <td>{{ m.file_md5 }}</td>
+                                        <td>{{ m.commit_id }}</td>
                                         <td>{{ m.status }}</td>
                                         <td>{{ m.created_date |date:'Y-m-d H:i:s' }}</td>
                                         <td>{{ m.modified_date |date:'Y-m-d H:i:s' }}</td>

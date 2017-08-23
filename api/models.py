@@ -28,6 +28,7 @@ class Status(CommonModel,PUBLISH_BASE):
 
 class Project(CommonModel,PUBLISH_BASE):
     name=models.CharField(max_length=50,unique=True)
+    build_name=models.CharField(max_length=50,unique=True,blank=True)
     type=models.CharField(max_length=50)
     host_list=models.ManyToManyField(Ipv4Address,related_name='project_host')
 
