@@ -234,8 +234,16 @@ def versioin_console_view(req):
                                                status=Status.objects.get(name='standby')
                                                )
                 response=HttpResponse(json.dumps(get_result(0,'add to  version history')))
-            else:\
-                response=HttpResponseBadRequest(json.dumps(get_result(2,'already add to version history')))
+            elif Version_history.objects.filter(project=project,version=version).__len__()==1:
+                Version_history.objects.filter(project=project, version=version).update(
+                    file_name=file_name,
+                    file_md5=file_md5,
+                    commit_id=commit_id,
+                    status=Status.objects.get(name='standby')
+                )
+                response=HttpResponse(json.dumps(get_result(0,'add to  version history')))
+            else:
+                response=HttpResponseBadRequest(json.dumps(get_result(1, 'wrong version list please contact admin')))
     else:
         response = HttpResponseBadRequest(json.dumps(get_result(1, 'not allowed')))
     return response
