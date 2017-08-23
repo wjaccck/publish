@@ -64,9 +64,9 @@ class Version_history(CommonModel, PUBLISH_BASE):
     file_name = models.CharField(max_length=50)
     file_md5 = models.CharField(max_length=50)
     status = models.ForeignKey(Status)
-    commit_id = models.CharField(max_length=100,blank=True)
+    commit_id = models.CharField(max_length=100)
+    download_url = models.CharField(max_length=100)
 
     @staticmethod
     def verbose():
         return u'版本历史'
-
