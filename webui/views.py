@@ -216,7 +216,7 @@ def versioin_console_view(req):
         project_name=content.get('project')
         version=content.get('version')
         file_name=content.get('file_name')
-        file_md5=content.get('version')
+        file_md5=content.get('file_md5')
         commit_id=content.get('commit_id')
         if Project.objects.filter(name=project_name).__len__() == 0 and Project.objects.filter(build_name=project_name).__len__() == 0:
             response=HttpResponseBadRequest(json.dumps(get_result(1, 'project not existed {0}'.format(project_name))))
@@ -245,5 +245,5 @@ def versioin_console_view(req):
             else:
                 response=HttpResponseBadRequest(json.dumps(get_result(1, 'wrong version list please contact admin')))
     else:
-        response = HttpResponseBadRequest(json.dumps(get_result(1, 'not allowed')))
+        response = HttpResponseBadRequest(json.dumps(get_result(1, 'method not allowed')))
     return response
