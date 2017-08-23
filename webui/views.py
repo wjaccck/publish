@@ -217,10 +217,13 @@ def versioin_console_view(req):
         file_name=req.POST.get('file_name')
         file_md5=req.POST.get('version')
         commit_id=req.POST.get('commit_id')
-        if Project.objects.filter(name=project_name).__len__() == 0:
+        if Project.objects.filter(name=project_name).__len__() == 0 and Project.objects.filter(build_name=project_name).__len__() == 0:
             response=HttpResponseBadRequest(json.dumps(get_result(1, 'project not existed {0}'.format(project_name))))
         else:
-            project=Project.objects.filter(name=project_name)[0]
+            if Project.objects.filter(name=project_name).__len__() != 0:
+                project=Project.objects.filter(name=project_name)[0]
+            else:
+                project=Project.objects.filter(build_name=project_name)[0]
             if Version_history.objects.filter(project=project,version=version).__len__()==0:
                 Version_history.objects.create(project=project,
                                                version=version,
@@ -230,7 +233,7 @@ def versioin_console_view(req):
                                                status=Status.objects.get(name='standby')
                                                )
                 response=HttpResponse(json.dumps(get_result(0,'add to  version history')))
-            else:
+            else:\
                 response=HttpResponseBadRequest(json.dumps(get_result(2,'already add to version history')))
     else:
         response = HttpResponseBadRequest(json.dumps(get_result(1, 'not allowed')))
