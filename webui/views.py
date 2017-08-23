@@ -212,11 +212,12 @@ def versioin_console_view(req):
                       Version_history.objects.filter(project=project)]
             response = HttpResponse(json.dumps(result))
     elif req.method=='POST':
-        project_name=req.POST.get('project')
-        version=req.POST.get('version')
-        file_name=req.POST.get('file_name')
-        file_md5=req.POST.get('version')
-        commit_id=req.POST.get('commit_id')
+        content=json.loads(req.body)
+        project_name=content.get('project')
+        version=content.get('version')
+        file_name=content.get('file_name')
+        file_md5=content.get('version')
+        commit_id=content.get('commit_id')
         if Project.objects.filter(name=project_name).__len__() == 0 and Project.objects.filter(build_name=project_name).__len__() == 0:
             response=HttpResponseBadRequest(json.dumps(get_result(1, 'project not existed {0}'.format(project_name))))
         else:

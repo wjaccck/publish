@@ -25,6 +25,12 @@ class MissionTask(BaseTask):
         self.mission = Mission.objects.get(id=exec_id)
         self.mission.status = Status.objects.get(name='processing')
         self.mission.save()
+        self.project=self.mission.project
+        self.version=self.mission.version
+        version=Version_history.objects.filter(project=self.project, version=self.version)[0]
+        self.file_name=version.file_name
+        self.file_md5=version.file_md5
+        self.download_url="http://publish.intra.17shihui.com/{0}/{1}".format(self.project.name,self.file_name)
         super(MissionTask, self).init()
 
     def run(self, exec_id,call_id=None):
@@ -39,10 +45,11 @@ class MissionTask(BaseTask):
             playbook_path=playbook_path,
             extra_vars={
                 "host": [x.name for x in self.mission.project.host_list.all()],
-                "project": self.mission.project.name,
-                "version": self.mission.version,
-                "file_name": self.mission.version,
-                "file_md5": self.mission.version,
+                "project": self.project.name,
+                "version": self.version,
+                "file_name": self.file_name,
+                "file_md5": self.file_md5,
+                "url":self.download_url,
             }
         )
         result_data = rbt.get_playbook_result()
