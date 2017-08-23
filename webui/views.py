@@ -123,7 +123,7 @@ class Version_historyViewSet(Base_ListViewSet):
             pass
 
         if name:
-            return self.model.objects.filter(project__name__icontains=name)
+            return self.model.objects.filter(project__name__istartswith=name)
         else:
             return self.model.objects.all()
 
