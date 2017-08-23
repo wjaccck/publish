@@ -218,6 +218,7 @@ def versioin_console_view(req):
         file_name=content.get('file_name')
         file_md5=content.get('file_md5')
         commit_id=content.get('commit_id')
+        download_url=content.get('download_url')
         if Project.objects.filter(name=project_name).__len__() == 0 and Project.objects.filter(build_name=project_name).__len__() == 0:
             response=HttpResponseBadRequest(json.dumps(get_result(1, 'project not existed {0}'.format(project_name))))
         else:
@@ -231,6 +232,7 @@ def versioin_console_view(req):
                                                file_name=file_name,
                                                file_md5=file_md5,
                                                commit_id=commit_id,
+                                               download_url=download_url,
                                                status=Status.objects.get(name='standby')
                                                )
                 response=HttpResponse(json.dumps(get_result(0,'add to  version history')))
