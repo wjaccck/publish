@@ -4,7 +4,7 @@ from django import forms
 from django.utils.translation import ugettext_lazy as _
 from api.models import *
 from .wiget import *
-
+from django.core.exceptions import ValidationError
 class LoginForm(AuthenticationForm):
     '''Authentication form which uses boostrap CSS.'''
     username = forms.CharField(max_length=255,widget=forms.TextInput({
@@ -61,14 +61,13 @@ class MissionFrom(forms.ModelForm):
     #                           help_text=u'提交版本号，默认为release版本',
     #                           widget=forms.TextInput({'class': 'form-control'}))
 
-    def clean(self):
-        cleaned_data = super(MissionFrom,self).clean()
-        project = cleaned_data.get('project')
-        version = cleaned_data.get('version')
-        if Version_history.objects.filter(project=project,version=version).__len__()!=0:
-            self._errors['version'] = self.error_class([u"该版本并未进入版本库，请确认是否执行过打包"])
+    def clean_version(self):
+        project = self.cleaned_data.get('project')
+        version = self.cleaned_data.get('version')
+        if Version_history.objects.filter(project__name=project,version=version).__len__()==0:
+            raise ValidationError(u'该版本并未进入版本库，请确认是否执行过打包')
         else:
-            return cleaned_data
+            return version
 
     def save(self, commit=True):
         instance = super(MissionFrom, self).save(commit=False)

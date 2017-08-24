@@ -185,7 +185,7 @@ def mission_run_view(req):
     else:
         project=Project.objects.filter(name=project_name)[0]
         if Version_history.objects.filter(project=project,version=version).__len__()==0:
-            response = HttpResponseBadRequest(json.dumps(get_result(1, 'not ready to publish: not existed {0}:{1} maybe do not pass the jenkins'.format(project_name,version))))
+            response = HttpResponseBadRequest(json.dumps(get_result(1, 'not ready to publish: not existed {0}:{1} maybe package-job do not complete '.format(project_name,version))))
         else:
             mission_status = [x.status.name for x in Mission.objects.filter(project=project, version=version)]
             if 'processing' in mission_status or 'in_queue' in mission_status:
