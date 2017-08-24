@@ -61,6 +61,15 @@ class MissionFrom(forms.ModelForm):
     #                           help_text=u'提交版本号，默认为release版本',
     #                           widget=forms.TextInput({'class': 'form-control'}))
 
+    def clean(self):
+        cleaned_data = super(MissionFrom,self).clean()
+        project = cleaned_data.get('project')
+        version = cleaned_data.get('version')
+        if Version_history.objects.filter(project=project,version=version).__len__()!=0:
+            self._errors['version'] = self.error_class([u"该版本并未进入版本库，请确认是否执行过打包"])
+        else:
+            return cleaned_data
+
     def save(self, commit=True):
         instance = super(MissionFrom, self).save(commit=False)
         instance.status=Status.objects.get(name='undo')
