@@ -63,7 +63,7 @@ class MissionFrom(forms.ModelForm):
 
     def clean_version(self):
         project = self.cleaned_data.get('project')
-        version = self.cleaned_data.get('version')
+        version = self.cleaned_data.get('version').strip()
         if Version_history.objects.filter(project__name=project,version=version).__len__()==0:
             raise ValidationError(u'该版本并未进入版本库，请确认是否执行过打包')
         else:
