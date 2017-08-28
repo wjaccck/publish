@@ -30,26 +30,26 @@ class MissionTask(BaseTask):
         version=Version_history.objects.filter(project=self.project, version=self.version)[0]
         self.file_name=version.file_name
         self.file_md5=version.file_md5
-        self.download_url="http://publish.intra.17shihui.com/{0}/{1}".format(self.project.name,self.file_name)
+        self.download_url=version.download_url
         super(MissionTask, self).init()
 
     def run(self, exec_id,call_id=None):
         self.init(exec_id=exec_id)
         if self.mission.project.type=='php':
-            playbook_path='/home/admin/scripts/t.yml'
+            playbook_path='/home/admin/scripts/php_update.yml'
         else:
-            playbook_path = '/home/admin/scripts/t.yml'
+            playbook_path = '/home/admin/scripts/php_update.yml'
         resource = [{"hostname": x.name,"username": "admin", "password": "admin@eju"} for x in self.mission.project.host_list.all()]
         rbt = ANSRunner(resource)
         rbt.run_playbook(
             playbook_path=playbook_path,
             extra_vars={
                 "host": [x.name for x in self.mission.project.host_list.all()],
-                "project": self.project.name,
+                "item_name": self.project.name,
                 "version": self.version,
                 "file_name": self.file_name,
                 "file_md5": self.file_md5,
-                "url":self.download_url,
+                "download_url":self.download_url,
             }
         )
         result_data = rbt.get_playbook_result()
