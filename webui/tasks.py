@@ -64,6 +64,7 @@ class MissionTask(BaseTask):
 
         if publish_status:
             self.mission.status=Status.objects.get(name='done')
+            self.mission.result='done'
             self.mission.save()
             Version_history.objects.filter(project=self.mission.project,status=Status.objects.get(name='current')).update(status=Status.objects.get(name='release'))
             change_version=Version_history.objects.get(project=self.mission.project,version=self.mission.version)
@@ -75,6 +76,7 @@ class MissionTask(BaseTask):
             self.mission.result=result_data
             self.mission.save()
 
+        # return {"resource":resource,"result":result_data,"exec_id":exec_id}
 # {'status': {'10.120.180.3': {'unreachable': 0, 'skipped': 0, 'changed': 1, 'ok': 4, 'failed': 0}, '10.120.180.2': {'unreachable': 0, 'skipped': 0, 'changed': 1, 'ok': 4, 'failed': 0}},
 #  'failed': {},
 #  'skipped': {},
