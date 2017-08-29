@@ -123,9 +123,9 @@ class Version_historyViewSet(Base_ListViewSet):
             pass
 
         if name:
-            return self.model.objects.filter(project__name__istartswith=name).order_by('modified_date')
+            return self.model.objects.filter(project__name__istartswith=name).order_by('-modified_date')
         else:
-            return self.model.objects.all().order_by('modified_date')
+            return self.model.objects.all().order_by('-modified_date')
 
 # class Progress_ViewSet(Base_ListViewSet):
 #     Progress.objects.all().count()
