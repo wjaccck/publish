@@ -71,6 +71,9 @@
 									 版本
 								</th>
                                 <th>
+									 状态
+								</th>
+                                <th>
 									 文件
 								</th>
                                 <th>
@@ -81,9 +84,6 @@
 								</th>
                                 <th>
 									 下载地址
-								</th>
-                                <th>
-									 状态
 								</th>
                                 <th>
 									 创建日期
@@ -99,11 +99,11 @@
                                         <td>{{ m.id }}</td>
                                         <td>{{ m.project.name }}</td>
                                         <td>{{ m.version }}</td>
+                                        <td>{{ m.status }}</td>
                                         <td>{{ m.file_name }}</td>
                                         <td>{{ m.file_md5 }}</td>
                                         <td>{{ m.commit_id }}</td>
                                         <td>{{ m.download_url }}</td>
-                                        <td>{{ m.status }}</td>
                                         <td>{{ m.created_date |date:'Y-m-d H:i:s' }}</td>
                                         <td>{{ m.modified_date |date:'Y-m-d H:i:s' }}</td>
                                     </tr>
