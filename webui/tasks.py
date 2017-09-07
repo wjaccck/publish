@@ -35,8 +35,8 @@ class MissionTask(BaseTask):
 
     def run(self, exec_id,call_id=None):
         self.init(exec_id=exec_id)
-        if self.mission.project.type=='php':
-            playbook_path='/home/admin/scripts/php_update.yml'
+        if self.mission.project.type=='php-lumen':
+            playbook_path='/home/admin/scripts/php-lumen-update.yml'
         else:
             playbook_path = '/home/admin/scripts/php_update.yml'
         resource = [{"hostname": x.name,"username": "admin", "password": "admin@eju"} for x in self.mission.project.host_list.all()]
