@@ -27,7 +27,7 @@ class ProjectForm(forms.ModelForm):
     build_name = forms.CharField(label='build_name', max_length=50, widget=forms.TextInput({'class': 'form-control'}))
     type = forms.ChoiceField(label='类型',choices=[
         ('node','node'),
-        ('php','php'),
+        ('php-lumen','php-lumen'),
         ('java', 'java')
     ])
 
